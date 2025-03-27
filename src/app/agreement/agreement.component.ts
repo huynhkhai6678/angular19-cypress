@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
 import { AgreementModalComponent } from './agreement-modal/agreement-modal.component';
+import { FlowbiteService } from '../services/flowbite.service';
+import { initFlowbite } from 'flowbite';
+import { Flowbite } from '../decorators/flowbite.decorator';
 
 @Component({
   selector: 'app-agreement',
@@ -10,7 +12,15 @@ import { AgreementModalComponent } from './agreement-modal/agreement-modal.compo
   templateUrl: './agreement.component.html',
   styleUrl: './agreement.component.scss'
 })
+
+@Flowbite()
+
 export class AgreementComponent implements OnInit {
+
+  constructor(
+    private flowbiteService: FlowbiteService,
+  ) {}
+
   data = [
     {
       name: 'Test 1',
@@ -44,6 +54,8 @@ export class AgreementComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    initFlowbite();
+    this.flowbiteService.loadFlowbite((flowbite) => {
+      initFlowbite();
+    });
   }
 }

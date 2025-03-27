@@ -6,12 +6,12 @@
             Agreement table lists
         </div>
         <div class="relative">
-            <button type="button" data-modal-target="agreement-modal" data-modal-toggle="agreement-modal" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+            <button id="create-agreement-btn" type="button" data-modal-target="agreement-modal" data-modal-toggle="agreement-modal" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
                 Create agreement
             </button>
         </div>
     </div>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="agreement-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 @for(column of tableColumns;track column[0]) {
@@ -22,14 +22,8 @@
             </tr>
         </thead>
         <tbody>
-            @for(item of data;track item.name) {
+            @for(item of data;track item.name; let i = $index;) {
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <!-- @for(column of tableColumns;track column[1]) {
-                        <td class="px-6 py-4">
-                            {{item[column[1]]}}
-                        </td>
-                    } -->
-                        
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{item.name}}
                     </th>
@@ -45,8 +39,12 @@
                     <td class="px-6 py-4">
                         {{item.end_date}}
                     </td>
-                    <td class="px-6 py-4">
-                        {{item.status}}
+                    <td class="px-6 py-4" id="status-data-{{i}}">
+                        <div [attr.data-tooltip-target]="'tooltip-status-' + i">{{item.status}}</div>
+                        <div id="tooltip-status-{{i}}" role="tooltip" class="tooltip-contain absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                            {{item.status}}
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
                     </td>
                     <td class="px-6 py-4">
                         {{item.created_date}}
